@@ -43,6 +43,7 @@ def delete(id):
     db.session.commit()
     return redirect(url_for('index'))
 
+# Export to completed jobs
 @app.route('/export_completed_jobs')
 def export_completed_jobs():
     completed_jobs = Todo.query.filter_by(complete=True).all()
