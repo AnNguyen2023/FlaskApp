@@ -1,0 +1,121 @@
+{% extends 'partials/base.html' %} <br />
+
+{% block title %} Home {% endblock %} <br />
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header">Statistics</div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card shadow">
+                                <div class="card-body">
+                                    <h6>Total</h6>
+                                    <p class="text-center">{{ total_todo }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card shadow">
+                                <div class="card-body">
+                                    <h6>Completed Jobs</h6>
+                                    <p class="text-center">{{ completed_todo }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card shadow">
+                                <div class="card-body">
+                                    <h6>Uncompleted</h6>
+                                    <p class="text-center">{{ uncompleted_todo }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                    
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header"> ToDo Form</div>
+                <div class="card-body">
+                    <form action="/add" method="POST">
+                        <label for="">Title</label>
+                        <input 
+                            class="form-control"
+                            type="text"
+                            name="title"
+                            id="titleInput"
+                            placeholder="Add todo"
+                            oninput="toggleAddButton()"
+                        />                        
+                        <input 
+                            class="btn btn-primary mt-2 btn-sm" 
+                            type="submit" 
+                            value="Add" 
+                            id="addButton"
+                            disabled
+                        />
+                    </form>
+                </div>
+            </div>            
+        </div>
+    </div>
+    {% if total_todo == 0 %}
+    <marquee class="mt-3 display-5" behavior="" direction=""
+    >No Todo in queue... Create new job in Todo form </marquee>
+    {% endif %} <br>
+
+    {% for todo in todo_list %}
+    <div class="border-start border-5 mt-3 shadow">
+        <div class="card-body">
+            <h5>{{ todo.id }} | {{ todo.title }}</h5>
+            {% if todo.complete %}
+            <span class="badge bg-success">Completed</span>
+            {% else %}
+            <span class="badge bg-secondary">Uncomplete</span>
+            {% endif %}
+            <a class="btn btn-primary btn-sm" href="/update/{{ todo.id }}">Update</a>
+            <a class="btn btn-secondary btn-sm" href="/edit/{{ todo.id }}">Edit</a>
+            <a class="btn btn-danger btn-sm" href="/delete/{{ todo.id }}">Delete</a>
+        </div>
+    </div>
+    {% endfor %}
+    <div class="row border-start border-5 mt-3 shadow">
+        <div class="card-body">
+            <a class="btn btn-outline-secondary btn-sm" href="/export_completed_jobs">Export Completed Jobs</a>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- To disable the "Add" button when the input field is empty, you can use JavaScript to dynamically enable or disable the button based on the input's value. -->
+<script>
+    function toggleAddButton() {
+        const titleInput = document.getElementById('titleInput');
+        const addButton = document.getElementById('addButton');
+        
+        if (titleInput.value.trim() === '') {
+            addButton.disabled = true;
+        } else {
+            addButton.disabled = false;
+        }
+    }
+    function exportCompletedJobs() {
+        fetch('/export_completed_jobs')
+            .then(response => response.json())
+            .then(data => {
+                // Process the JSON data
+                console.log(data); // You can use the data as per your requirement
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+</script>
+{% endblock %}

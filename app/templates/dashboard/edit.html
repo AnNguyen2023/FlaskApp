@@ -1,0 +1,35 @@
+{% extends 'partials/base.html' %} <br />
+
+{% block title %} Home {% endblock %} <br />
+
+{% block content %} 
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header"> Edit task Form</div>
+                    <div class="card-body">
+                        <label for="">The old name</label>
+                            <P>{{ todo.title }}</P>                               
+                        <form action="{{ url_for('edit', id=todo.id) }}" method="POST">
+                            <label for="">Please edit title of job</label>
+                            <input 
+                                class="form-control"
+                                type="text"
+                                name="title"
+                                value="{{ todo.title }}"/>
+                            <input 
+                                class="btn btn-success mt-2 btn-sm" 
+                                type="submit" 
+                                value="Save" />
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+    
