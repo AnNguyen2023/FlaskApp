@@ -43,14 +43,6 @@ def delete(id):
     db.session.commit()
     return redirect(url_for('index'))
 
-# @app.route('/export_completed_jobs/<int:id>', methods=['GET', 'POST'])
-# def export(id):
-#     todo = Todo.query.get(id)
-#     if request.method == 'POST':
-#         todo.title = request.form['title']
-#         db.session.commit()
-#         return redirect(url_for('index'))
-#     return render_template ('dashboard/export.html', todo=todo)
 @app.route('/export_completed_jobs')
 def export_completed_jobs():
     completed_jobs = Todo.query.filter_by(complete=True).all()
