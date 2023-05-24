@@ -3,11 +3,8 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-<<<<<<< HEAD
-=======
 Token.txt
 
->>>>>>> 3c491fc (upload frm 2305)
 # C extensions
 *.so
 
